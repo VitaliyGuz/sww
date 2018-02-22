@@ -1,16 +1,20 @@
 var express = require('express')
 var router = express.Router()
-var Client = require('../Client')
+var client = require('../Client')
+var sendEmail = require('../utils/mailSender')
 
 
 router.post('/', function (req, res, next) {
-    // const client = new Client()
+    const { email, password } = req.body
     const ipAddress = (req.headers['X-Forwarded-For'] ||
         req.headers['x-forwarded-for'] ||
         '').split(',')[0] ||
         req.client.remoteAddress
-    const result = Client.checkIPAddress(ipAddress)
-    res.json({ ipAddress, result })
+    const token = client.checkIPAddress({ ipAddress, email, password })
+    if (token !== '') {
+        sendEmail({ email, token, host: req.header('host') })
+    }
+    res.json({ ipAddress, token })
 })
 
 module.exports = router
