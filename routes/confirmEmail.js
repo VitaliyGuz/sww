@@ -6,10 +6,12 @@ var User = require('../models/user')
 
 router.get('/:token', function (req, res, next) {
     const result = client.findToken(req.params.token)
-    if (result) {
-        const user = new User(result)
-        user.save((error, result) => res.json({ result }))
+    if (!result) {
+        res.send('user not found')
+        return
     }
+    const user = new User(result)
+    user.save((error, result) => res.json({ result }))
 })
 
 module.exports = router

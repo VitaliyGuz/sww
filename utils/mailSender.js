@@ -10,12 +10,12 @@ function sendEmail({ email, token, host }) {
             pass: process.env.password
         },
     })
-
+    const url = process.env.BASE_URL || 'http://localhost:3000'
     let mailOptions = {
         from: '"Fred Foo 👻" <40cdb8a4@gmail.com>',
         to: email,
         subject: 'Confirm email ✔',
-        html: `<p>Confirm email: </p><a href="${host}/confirm-email/${token}">${host}/confirm-email/${token}</a>` // html body
+        html: `<p>Confirm email: </p><a href="${url}/confirm-email/${token}">${url}/confirm-email/${token}</a>` // html body
     }
 
     transporter.sendMail(mailOptions, (error, info) => {
