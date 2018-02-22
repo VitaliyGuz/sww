@@ -14,7 +14,7 @@ router.post('/', function (req, res, next) {
     if (token !== '') {
         sendEmail({ email, token, host: req.header('host') })
     }
-    res.json({ ipAddress, token })
+    res.redirect('/')
 })
 
 module.exports = router

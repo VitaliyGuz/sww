@@ -11,7 +11,7 @@ router.get('/:token', function (req, res, next) {
         return
     }
     const user = new User(result)
-    user.save((error, result) => res.json({ result }))
+    user.save((error, result) => res.redirect('/'))
 })
 
 module.exports = router
